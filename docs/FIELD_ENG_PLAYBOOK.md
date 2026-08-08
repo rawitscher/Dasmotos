@@ -232,7 +232,7 @@ Repo blocklists, model allowlists, MCP allowlists, sandbox/auto-run controls, se
 Pilot design: 3 teams × 4–6 weeks, baseline cycle time + PR metrics, AI Code Tracking / analytics, qualitative preference (cite public: high engineer preference in head-to-heads — use cautiously).
 
 **“On-prem?”**  
-Not offered today; AWS + enterprise controls + private connectivity options. Don’t invent VPC-Cursor.
+No self-hosted Cursor IDE today. Enterprise cloud + MDM client + private connectivity to self-hosted SCM for Cloud Agents/Bugbot. Don’t invent on-prem Cursor.
 
 ---
 

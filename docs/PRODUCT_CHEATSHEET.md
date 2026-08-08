@@ -11,23 +11,28 @@ Cursor is an AI-native development environment (VS Code fork) plus agent platfor
 | Surface | Shortcut / where | What to say |
 | --- | --- | --- |
 | **Tab** | Tab / Esc | Next-action autocomplete; multi-line; jump-in-file; cross-file portals |
-| **Inline Edit** | Cmd/Ctrl+K | Surgical edit with instruction in-place |
-| **Agent** | Cmd/Ctrl+I (sidepane) | Plan/search/edit/terminal/browser; checkpoints; queue |
-| **Plan / Ask / Debug / Agent modes** | mode picker | Match mode to risk: explore vs change vs diagnose |
-| **Cloud Agents** | cursor.com/agents, Slack, GH comment `@cursor` | Parallel VM agents; PRs + artifacts; multi-repo |
-| **Bugbot** | PR checks / `cursor review` | Agentic PR review; Fix in Cursor / Fix in Web |
-| **Rules** | `.cursor/rules`, AGENTS.md, Team Rules | Persistent org/project instructions |
-| **Skills / Hooks / Subagents** | Customize / `.cursor` | Package workflows; policy on tool use |
-| **MCP** | `.cursor/mcp.json`, marketplace | Tools into Jira, DBs, internal APIs — allowlisted |
-| **CLI** | `cursor-agent` / headless | CI and terminal-native agenting; JetBrains ACP story |
+| **Inline Edit** | Cmd/Ctrl+K | Surgical edit in-place (User Rules do **not** apply here) |
+| **Agent** | Cmd/Ctrl+I or L | Search/edit/terminal/browser; checkpoints; queue |
+| **Modes** | Shift+Tab or picker | **Agent** (edits) · **Ask** (read-only) · **Plan** (approve then build) · **Debug** |
+| **Cloud Agents** | cursor.com/agents, Slack, GH/Bitbucket `@cursor`, Linear/Jira | Parallel VMs; PRs + artifacts; multi-repo *(formerly “Background Agents”)* |
+| **Bugbot** | PR checks / `cursor review` | Agentic PR review; Autofix → Cloud Agent; `.cursor/BUGBOT.md` |
+| **Rules** | `.cursor/rules`, AGENTS.md, Team Rules | Persistent org/project instructions (Team → Project → User) |
+| **Skills / Hooks / Subagents** | Customize / `.cursor` | Packaged workflows; observe/block agent loop |
+| **MCP** | `.cursor/mcp.json`, marketplace | Jira, DBs, internal APIs — Enterprise allowlists |
+| **CLI / Agents Window** | CLI · Cmd palette “Agents Window” | Headless/CI; parallel local↔cloud agent workspace |
+
+### Naming traps (don’t fumble these live)
+
+- **Composer 2.5** = Cursor’s **model**, not a separate UI pane (old “Composer” UI ≈ today’s Agent modes)
+- **Memories** removed from product — use **Rules / Team Rules / AGENTS.md / Skills**
+- **Background Agents** → say **Cloud Agents**
 
 ## Context system
 
-- Codebase indexing for large repos / monorepos
-- `@` files, folders, docs, rules, web
+- Codebase indexing for large repos / monorepos (`.cursorignore` / `.cursorindexingignore`)
+- `@` files, folders, docs, rules, git diffs, terminals, web
 - Rules: Always / Intelligent / Glob / Manual
 - Nested `AGENTS.md`
-- Memories (user-level preferences — don’t oversell vs Rules for enterprises)
 
 ## Enterprise control plane
 
@@ -39,16 +44,18 @@ Cursor is an AI-native development environment (VS Code fork) plus agent platfor
 - Audit logs, service accounts, billing groups, pooled usage
 - Analytics, Conversation Insights, **AI Code Tracking API**, **Cursor Blame**
 - OpenTelemetry export; HIPAA BAA (Enterprise, request path)
-- **Not today:** full on-prem IDE — be honest; private connectivity for source control exists for Cloud Agents
+- **Not today:** self-hosted Cursor IDE. **Do say:** private connectivity (e.g. PrivateLink / Cloudflare Tunnel) for self-hosted SCM used by Cloud Agents / Bugbot; MDM-deployed desktop client
 
-## Pricing (list — Enterprise is custom)
+## Pricing (list — verify on cursor.com/pricing before the meeting)
 
 | Plan | List | Memorable inclusions |
 | --- | --- | --- |
-| Hobby | Free | Limited Agent, Composer |
-| Pro | ~$20/user/mo | Agent limits, frontier models, MCP/skills/hooks, Cloud Agents, Bugbot usage-based |
-| Teams | ~$40/user/mo | Admin, team marketplace, Bugbot, shared cloud context, analytics, Privacy Mode, SSO |
-| Enterprise | Custom | Pooled usage, SCIM, repo/model/MCP controls, audit, AI code tracking, priority support |
+| Hobby | Free | Limited Agent |
+| Pro / Pro+ / Ultra | ~$20 / $60 / $200 | Rising model pools; MCP/skills/hooks; Cloud Agents; Bugbot usage-based |
+| Teams Standard / Premium | ~$40 / $120 per user/mo | Admin, marketplace, Bugbot, analytics, Privacy Mode, SSO; Premium = more Agent usage |
+| Enterprise | Custom | Pooled usage, SCIM, repo/model/MCP controls, audit, AI code tracking, CMEK/residency options, priority support |
+
+**ROI color (case studies — not contracts):** Coinbase, Box, NVIDIA, Amplitude, Vercel blogs on cursor.com/blog — pair with in-product Analytics / AI Code Tracking / Cursor Blame.
 
 ## Integrations that matter in enterprise disco
 
