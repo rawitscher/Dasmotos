@@ -1,48 +1,132 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Dasmoto's Arts & Crafts</title>
-        <link href="resources/style.css" type="text/css" rel="stylesheet">
-    </head>
-    <body>
-        <h1 id="banner">Dasmoto's Arts & Crafts</h1>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elsewhere — a little travel journal</title>
+  <meta name="description" content="Upload photos and write about your travels with Elsewhere, a cozy personal travel journal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="#top" aria-label="Elsewhere home">Elsewhere</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#journal">Journal</a>
+      <a href="#album">Album</a>
+      <a href="#write" class="nav-cta">Write</a>
+    </nav>
+  </header>
 
-        <div id="brushes">
-            <h2>Brushes</h2>
-            <img src="resources/hacksaw.jpeg" alt="Hacksaw brushes">
-            <h3>Hacksaw Brushes</h3>
-            <p>
-                Made of the highest quality oak, Hacksaw brushes are known for
-                their weight and ability to hold paint in large amounts.
-                Available in different sizes.
-                <strong>Starting at $3.00 / brush.</strong>
-            </p>
+  <main id="top">
+    <section class="hero" aria-label="Welcome">
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/hero.jpg" alt="" class="hero-image">
+        <div class="hero-veil"></div>
+      </div>
+      <div class="hero-copy">
+        <p class="brand">Elsewhere</p>
+        <h1>Keep the road in your pocket.</h1>
+        <p class="lede">A soft little home for the photos you take and the stories that trail behind them.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#write">Start a note</a>
+          <a class="btn btn-ghost" href="#album">Open the album</a>
         </div>
+      </div>
+    </section>
 
-        <div id="frames">
-            <h2>Frames</h2>
-            <img src="resources/frames.jpeg" alt="Assorted colorful frames">
-            <h3>Art Frames (assorted)</h3>
-            <p>
-                Assorted frames made of different material, including MDF,
-                birchwood, and PDE. Select frames can be sanded and painted
-                according to your needs.
-                <strong>Starting at $2.00 / frame.</strong>
-            </p>
-        </div>
+    <section id="journal" class="section journal">
+      <div class="section-head">
+        <h2>Journal</h2>
+        <p>Short dispatches from wherever you wandered next.</p>
+      </div>
+      <div id="journal-list" class="journal-list" aria-live="polite"></div>
+      <p id="journal-empty" class="empty-state hidden">No entries yet — your first postcard is waiting in Write.</p>
+    </section>
 
-        <div id="paint">
-            <h2>Paint</h2>
-            <img src="resources/finnish.jpeg" alt="Finnish paint">
-            <h3>Clean Finnish Paint</h3>
-            <p>
-                Imported paint from Finland. Over 256 colors available in-store,
-                 varying in quantity (1 oz. to 8 oz.).
-                 Clean Finnish paint microbinds to canvas, increasing the finish
-                  and longevity of any artwork.
-                <strong>Starting at $5.00 / tube.</strong>
-            </p>
+    <section id="album" class="section album">
+      <div class="section-head">
+        <h2>Album</h2>
+        <p>Drop in the frames that made the trip feel real.</p>
+      </div>
+
+      <form id="photo-form" class="photo-form" method="post" action="#" aria-label="Upload photos">
+        <label class="dropzone" for="photo-input">
+          <span class="dropzone-title">Add photos</span>
+          <span class="dropzone-hint">JPG, PNG, or WebP — up to a few at a time</span>
+          <input id="photo-input" type="file" accept="image/*" multiple hidden>
+        </label>
+        <div class="photo-meta">
+          <label>
+            Caption
+            <input type="text" id="photo-caption" name="caption" placeholder="Golden hour in Lisbon" maxlength="120">
+          </label>
+          <label>
+            Place
+            <input type="text" id="photo-place" name="place" placeholder="Lisbon, Portugal" maxlength="80">
+          </label>
         </div>
-    </body>
+        <button type="submit" class="btn btn-primary" id="photo-submit" disabled>Save to album</button>
+      </form>
+
+      <div id="photo-preview" class="photo-preview" hidden></div>
+      <div id="album-grid" class="album-grid" aria-live="polite"></div>
+      <p id="album-empty" class="empty-state hidden">Your album is empty — upload a favorite frame above.</p>
+    </section>
+
+    <section id="write" class="section write">
+      <div class="section-head">
+        <h2>Write</h2>
+        <p>One place, one story, as many photos as you like.</p>
+      </div>
+
+      <form id="post-form" class="post-form" method="post" action="#" aria-label="New journal entry">
+        <label>
+          Title
+          <input type="text" id="post-title" name="title" required maxlength="100" placeholder="Rainy morning in Kyoto">
+        </label>
+        <div class="post-row">
+          <label>
+            Place
+            <input type="text" id="post-place" name="place" maxlength="80" placeholder="Kyoto, Japan">
+          </label>
+          <label>
+            Date
+            <input type="date" id="post-date" name="date" required>
+          </label>
+        </div>
+        <label>
+          Story
+          <textarea id="post-body" name="body" required rows="8" maxlength="5000" placeholder="What did the air smell like? Who did you meet? What will you remember?"></textarea>
+        </label>
+        <label class="attach-label">
+          Attach photos
+          <input id="post-photos" type="file" accept="image/*" multiple>
+        </label>
+        <div id="post-photo-preview" class="photo-preview" hidden></div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Publish entry</button>
+          <button type="reset" class="btn btn-ghost">Clear</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="brand-mark">Elsewhere</span> — your travels, kept close.</p>
+  </footer>
+
+  <dialog id="entry-dialog" class="entry-dialog">
+    <article id="entry-dialog-body"></article>
+    <form method="dialog" class="dialog-actions">
+      <button class="btn btn-ghost" value="close">Close</button>
+    </form>
+  </dialog>
+
+  <script src="js/db.js"></script>
+  <script src="js/app.js"></script>
+</body>
 </html>
