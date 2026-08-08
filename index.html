@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
   <header class="site-header">
@@ -52,7 +53,7 @@
         <p>Drop in the frames that made the trip feel real.</p>
       </div>
 
-      <form id="photo-form" class="photo-form" aria-label="Upload photos">
+      <form id="photo-form" class="photo-form" method="post" action="#" aria-label="Upload photos">
         <label class="dropzone" for="photo-input">
           <span class="dropzone-title">Add photos</span>
           <span class="dropzone-hint">JPG, PNG, or WebP — up to a few at a time</span>
@@ -82,7 +83,7 @@
         <p>One place, one story, as many photos as you like.</p>
       </div>
 
-      <form id="post-form" class="post-form" aria-label="New journal entry">
+      <form id="post-form" class="post-form" method="post" action="#" aria-label="New journal entry">
         <label>
           Title
           <input type="text" id="post-title" name="title" required maxlength="100" placeholder="Rainy morning in Kyoto">

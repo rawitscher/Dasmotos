@@ -99,8 +99,8 @@ textarea {
 }
 
 .nav-cta {
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  border-radius: 12px;
   background: var(--sea);
   color: #f7fffd;
   opacity: 1 !important;
@@ -193,7 +193,7 @@ textarea {
   min-height: 2.85rem;
   padding: 0.7rem 1.25rem;
   border: 0;
-  border-radius: 999px;
+  border-radius: 14px;
   font-weight: 700;
   cursor: pointer;
   transition: transform 160ms ease, background 160ms ease, color 160ms ease, border-color 160ms ease;
