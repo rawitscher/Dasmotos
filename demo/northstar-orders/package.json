@@ -1,0 +1,21 @@
+{
+  "name": "northstar-orders",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Demo microservice for Cursor Field Eng pitch — intentional brownfield patterns",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "test": "tsx --test test/**/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
