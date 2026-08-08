@@ -15,6 +15,7 @@
   <header class="site-header">
     <a class="logo" href="#top" aria-label="Elsewhere home">Elsewhere</a>
     <nav class="nav" aria-label="Primary">
+      <a href="#trip">Trip</a>
       <a href="#journal">Journal</a>
       <a href="#album">Album</a>
       <a href="#write" class="nav-cta">Write</a>
@@ -30,12 +31,45 @@
       <div class="hero-copy">
         <p class="brand">Elsewhere</p>
         <h1>Keep the road in your pocket.</h1>
-        <p class="lede">A soft little home for the photos you take and the stories that trail behind them.</p>
+        <p class="lede">A soft little home for the photos you take, the notes you write, and the moments you text from the road.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#write">Start a note</a>
-          <a class="btn btn-ghost" href="#album">Open the album</a>
+          <a class="btn btn-primary" href="#trip">Text it in</a>
+          <a class="btn btn-ghost" href="#write">Start a note</a>
         </div>
       </div>
+    </section>
+
+    <section id="trip" class="section trip">
+      <div class="section-head">
+        <h2>Trip inbox</h2>
+        <p>Text a photo or voice memo to your Elsewhere number and it lands here.</p>
+      </div>
+
+      <div class="trip-status" id="trip-status" aria-live="polite">
+        <p class="trip-kicker" id="trip-name">Current trip</p>
+        <p class="trip-phone" id="trip-phone">Connecting…</p>
+        <p class="trip-help" id="trip-help">Start the Elsewhere server to enable texting-in.</p>
+      </div>
+
+      <ul class="trip-tips" id="trip-tips"></ul>
+
+      <div id="moment-list" class="moment-list" aria-live="polite"></div>
+      <p id="moment-empty" class="empty-state hidden">Nothing texted in yet — send a photo, a voice memo, or a quick note.</p>
+
+      <details class="demo-panel" id="demo-panel" hidden>
+        <summary>Try a demo text (no Twilio needed)</summary>
+        <form id="demo-form" class="demo-form" method="post" action="#">
+          <label>
+            Message
+            <input type="text" id="demo-body" name="body" placeholder="TRIP Algarve" maxlength="300">
+          </label>
+          <label class="attach-label">
+            Attach a photo or voice memo
+            <input id="demo-media" type="file" accept="image/*,audio/*">
+          </label>
+          <button type="submit" class="btn btn-primary">Send demo text</button>
+        </form>
+      </details>
     </section>
 
     <section id="journal" class="section journal">
@@ -127,6 +161,7 @@
   </dialog>
 
   <script src="js/db.js"></script>
+  <script src="js/trip.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
