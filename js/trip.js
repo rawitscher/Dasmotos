@@ -3,6 +3,8 @@
     tripName: document.getElementById("trip-name"),
     tripPhone: document.getElementById("trip-phone"),
     tripHelp: document.getElementById("trip-help"),
+    tripWebhook: document.getElementById("trip-webhook"),
+    tripSetup: document.getElementById("trip-setup"),
     tripTips: document.getElementById("trip-tips"),
     momentList: document.getElementById("moment-list"),
     momentEmpty: document.getElementById("moment-empty"),
@@ -69,7 +71,9 @@
       els.tripName.textContent = "Trip inbox offline";
       els.tripPhone.textContent = "Start the server";
       els.tripHelp.textContent =
-        "Run npm start inside /server, then refresh. Demo texting works even before Twilio is connected.";
+        "Run npm start, then refresh. Demo texting works even before Twilio is connected.";
+      els.tripWebhook.hidden = true;
+      els.tripSetup.hidden = true;
       els.tripTips.innerHTML = "";
       els.demoPanel.hidden = true;
       return;
@@ -83,13 +87,31 @@
       : "Add your Twilio number";
     els.tripHelp.textContent = status.twilioConfigured
       ? "Text a photo or voice memo to this number (SMS/MMS — green bubble on iPhone)."
-      : "Twilio isn’t connected yet. Use the demo form below, or add keys in server/.env.";
+      : "Twilio isn’t connected yet. Finish the setup steps below, or use the demo form.";
+
+    if (status.webhookUrl) {
+      els.tripWebhook.hidden = false;
+      els.tripWebhook.textContent = `Webhook: ${status.webhookUrl}`;
+    } else {
+      els.tripWebhook.hidden = true;
+    }
+
+    const setup = status.setup || [];
+    if (setup.length) {
+      els.tripSetup.hidden = false;
+      els.tripSetup.innerHTML = setup
+        .map((step) => `<li>${escapeHtml(step)}</li>`)
+        .join("");
+    } else {
+      els.tripSetup.hidden = true;
+      els.tripSetup.innerHTML = "";
+    }
 
     els.tripTips.innerHTML = (status.tips || [])
       .map((tip) => `<li>${escapeHtml(tip)}</li>`)
       .join("");
 
-    els.demoPanel.hidden = false;
+    els.demoPanel.hidden = !status.demoEnabled;
   }
 
   function renderMoments() {
