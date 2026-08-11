@@ -255,16 +255,169 @@ textarea {
   color: var(--ink-soft);
 }
 
+.trip,
 .journal {
   position: relative;
 }
 
+.trip::before,
 .journal::before {
   content: "";
   position: absolute;
   inset: 1.5rem 0 auto;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--line), transparent);
+}
+
+.trip-status {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+}
+
+.trip-kicker {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.trip-phone {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--sea-deep);
+}
+
+.trip-help {
+  margin: 0.15rem 0 0;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.trip-webhook {
+  margin: 0.55rem 0 0;
+  color: var(--sea-deep);
+  font-size: 0.92rem;
+  font-weight: 600;
+  word-break: break-all;
+  max-width: 52ch;
+}
+
+.trip-setup {
+  margin: 0 0 1.5rem;
+  padding-left: 1.2rem;
+  color: var(--ink-soft);
+  max-width: 46rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.trip-tips {
+  margin: 0 0 1.75rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.trip-tips li {
+  padding-left: 1rem;
+  position: relative;
+}
+
+.trip-tips li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--lagoon);
+}
+
+.moment-list {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.moment {
+  display: grid;
+  gap: 0.55rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+  animation: fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.moment-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.moment-kind {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.moment-time {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.moment-text {
+  margin: 0;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+}
+
+.moment-photo {
+  width: min(100%, 420px);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.moment audio {
+  width: min(100%, 420px);
+}
+
+.moment-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.moment-actions .btn {
+  min-height: 2.2rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.9rem;
+}
+
+.demo-panel {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.demo-panel summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--sea-deep);
+}
+
+.demo-form {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+  max-width: 32rem;
 }
 
 .journal-list {
@@ -607,7 +760,7 @@ textarea:focus {
     gap: 0.75rem;
   }
 
-  .nav a:not(.nav-cta) {
+  .nav a:not(.nav-cta):not([href="#trip"]) {
     display: none;
   }
 

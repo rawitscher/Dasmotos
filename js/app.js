@@ -85,9 +85,24 @@ function renderPhotoPreview(container, files) {
   });
 }
 
+function textedPhotos() {
+  const moments = window.ElsewhereTrip?.getMoments?.() || [];
+  return moments
+    .filter((moment) => moment.kind === "photo" && moment.mediaUrl)
+    .map((moment) => ({
+      id: `trip-${moment.id}`,
+      dataUrl: moment.mediaUrl,
+      caption: moment.text || "Texted in",
+      place: "",
+      createdAt: moment.createdAt,
+      source: "sms",
+      momentId: moment.id,
+    }));
+}
+
 function renderAlbum() {
   els.albumGrid.innerHTML = "";
-  const photos = [...state.photos].sort(
+  const photos = [...state.photos, ...textedPhotos()].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
@@ -113,8 +128,13 @@ function renderAlbum() {
     remove.setAttribute("aria-label", "Remove photo");
     remove.textContent = "×";
     remove.addEventListener("click", async () => {
-      await deleteItem("photos", photo.id);
-      state.photos = state.photos.filter((item) => item.id !== photo.id);
+      if (photo.source === "sms" && photo.momentId) {
+        await fetch(`/api/moments/${photo.momentId}`, { method: "DELETE" });
+        await window.ElsewhereTrip?.refresh?.();
+      } else {
+        await deleteItem("photos", photo.id);
+        state.photos = state.photos.filter((item) => item.id !== photo.id);
+      }
       renderAlbum();
     });
 
@@ -341,6 +361,10 @@ async function init() {
   bindEvents();
   renderAlbum();
   renderJournal();
+
+  window.addEventListener("elsewhere:trip-updated", () => {
+    renderAlbum();
+  });
 }
 
 init().catch((error) => {
