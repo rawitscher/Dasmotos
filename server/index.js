@@ -8,8 +8,14 @@ import { processInboundMessage } from "./inbound.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
+const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.PORT || 8787);
-const PUBLIC_BASE_URL = (process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, "");
+const HOST = process.env.HOST || "0.0.0.0";
+const PUBLIC_BASE_URL = (
+  process.env.PUBLIC_BASE_URL ||
+  process.env.RENDER_EXTERNAL_URL ||
+  `http://localhost:${PORT}`
+).replace(/\/$/, "");
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID || "";
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN || "";
 const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER || "";
@@ -17,7 +23,12 @@ const ALLOWED_FROM = String(process.env.ALLOWED_FROM || "")
   .split(",")
   .map((value) => value.trim())
   .filter(Boolean);
-const ALLOW_UNSIGNED_WEBHOOKS = String(process.env.ALLOW_UNSIGNED_WEBHOOKS || "true") === "true";
+const ALLOW_UNSIGNED_WEBHOOKS =
+  String(
+    process.env.ALLOW_UNSIGNED_WEBHOOKS ?? (IS_PROD ? "false" : "true")
+  ) === "true";
+const ENABLE_DEMO =
+  String(process.env.ENABLE_DEMO ?? (IS_PROD ? "false" : "true")) === "true";
 
 const app = express();
 
@@ -69,15 +80,21 @@ function twimlMessage(text) {
   return `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${safe}</Message></Response>`;
 }
 
+app.get("/health", (_req, res) => {
+  res.status(200).json({ ok: true });
+});
+
 app.get("/api/status", async (_req, res) => {
   const state = await getTripState();
   res.json({
     ok: true,
+    production: IS_PROD,
     twilioConfigured: twilioConfigured(),
-    phoneNumber: TWILIO_PHONE_NUMBER || null,
+    phoneNumber: twilioConfigured() ? TWILIO_PHONE_NUMBER : null,
     publicBaseUrl: PUBLIC_BASE_URL,
     webhookUrl: `${PUBLIC_BASE_URL}/webhooks/twilio`,
-    allowedFrom: ALLOWED_FROM,
+    allowedFromConfigured: ALLOWED_FROM.length > 0,
+    demoEnabled: ENABLE_DEMO,
     trip: state.trip,
     momentCount: state.moments.length,
     tips: [
@@ -86,6 +103,14 @@ app.get("/api/status", async (_req, res) => {
       'Send "PLACE Porto" to update where you are.',
       "iPhone: use SMS/MMS (green bubble), not iMessage.",
     ],
+    setup: twilioConfigured()
+      ? []
+      : [
+          "Create a Twilio account and buy an SMS-capable number.",
+          "Set TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_PHONE_NUMBER.",
+          "Point the number’s Messaging webhook to /webhooks/twilio (HTTP POST).",
+          "Optionally set ALLOWED_FROM to your personal phone in E.164 (+1…).",
+        ],
   });
 });
 
@@ -135,8 +160,11 @@ app.post("/webhooks/twilio", async (req, res) => {
   }
 });
 
-// Local/demo helper so you can try the flow without Twilio credentials.
 app.post("/api/demo/inbound", async (req, res) => {
+  if (!ENABLE_DEMO) {
+    return res.status(404).json({ error: "Demo inbound is disabled" });
+  }
+
   try {
     const {
       from = "+15550001111",
@@ -184,10 +212,11 @@ app.post("/api/demo/inbound", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Elsewhere listening on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Elsewhere listening on http://${HOST}:${PORT}`);
+  console.log(`Public URL: ${PUBLIC_BASE_URL}`);
   console.log(`Webhook URL: ${PUBLIC_BASE_URL}/webhooks/twilio`);
   if (!twilioConfigured()) {
-    console.log("Twilio not configured yet — use /api/demo/inbound or fill server/.env");
+    console.log("Twilio not configured yet — add TWILIO_* env vars to go live");
   }
 });
