@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: Northstar Orders API
+  version: 0.1.0
+  description: |
+    Retail order + payment capture API.
+    NOTE: Idempotency keys are planned (see ADR-014) but not implemented yet.
+paths:
+  /health:
+    get:
+      summary: Liveness
+      responses:
+        "200":
+          description: OK
+  /v1/orders:
+    get:
+      summary: List orders
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: Create order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customerId, amountCents]
+              properties:
+                customerId: { type: string }
+                amountCents: { type: integer }
+                currency: { type: string, enum: [USD, EUR, GBP] }
+      responses:
+        "201":
+          description: Created
+  /v1/payments:
+    post:
+      summary: Capture payment for an order
+      description: Posts to the legacy ledger. Retries may double-charge.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [orderId]
+              properties:
+                orderId: { type: string }
+      responses:
+        "201":
+          description: Captured
+        "502":
+          description: Legacy ledger failure

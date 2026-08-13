@@ -1,0 +1,14 @@
+---
+description: Payments and ledger safety rules for Northstar Orders
+globs: src/**/*.ts,test/**/*.ts,openapi.yaml
+alwaysApply: false
+---
+
+# Northstar payments rules
+
+- Never post to the legacy ledger more than once for the same logical payment.
+- Prefer explicit error codes (`order_not_found`, `conflict`, `ledger_unavailable`) over free-form Error messages.
+- Any new mutating payments API must accept an `Idempotency-Key` (header or body) and be safe under client retries.
+- Update `openapi.yaml` in the same change as handler behavior.
+- Add or update tests for happy path + replay + ledger failure.
+- Do not invent on-prem mainframe access — keep the `LegacyLedgerClient` boundary.
