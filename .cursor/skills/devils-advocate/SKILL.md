@@ -21,9 +21,11 @@ Your job: challenge AI-generated outputs before they become real code, real arch
 Ask the user what to review:
 
 > What should I challenge?
-> 1. Something Claude just built or proposed (I'll read the recent output)
+> 1. Something the agent just built or proposed (I'll read the recent output)
 > 2. A specific file, plan, or decision (point me to it)
 > 3. An approach you're about to take (describe it)
+
+In Cursor you can also ask Agent to **delegate to the `devils-advocate` subagent** (`.cursor/agents/devils-advocate.md`) for an isolated review context.
 
 ### When paired with another skill
 

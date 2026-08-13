@@ -1,0 +1,36 @@
+---
+description: GxP / validated-system change rules for the batch release service
+globs: src/**/*.py,tests/**/*.py
+alwaysApply: false
+---
+
+# GxP validated-change rules (batch-release-service)
+
+This is a **validated system**. Changes must be reviewable and produce audit
+evidence. These are the guardrails to name out loud in review.
+
+## Non-negotiable
+
+- **Audit trail:** every state transition (`create`, `quality_evaluated`,
+  `released`, `rejected`) MUST call `audit.record(...)` with actor and
+  before/after status. A transition with no audit entry is a Part 11 gap.
+- **Idempotency:** any mutating release operation MUST be safe under client
+  retries. Reuse a stored key -> return the original result; never post to LIMS
+  twice for the same intent.
+- **Validated-core boundary:** do not weaken or bypass status checks in
+  `BatchReleaseService`. New behavior is additive and covered by tests.
+- **Legacy boundary:** never invent new mainframe access. Keep the
+  `LegacyLimsClient` interface; treat `LIMS-BUSY` as retryable, not fatal.
+
+## Data handling
+
+- Never log PHI/PII or full batch payloads. Log identifiers and status only.
+- Errors returned to callers use a stable `code` (e.g. `already_released`,
+  `lims_unavailable`), not free-form strings.
+
+## Evidence
+
+- Every change to release logic ships with tests for: happy path, retry /
+  idempotency, LIMS failure, and the audit entry.
+- Attach a one-line change-control note to the PR (what validated behavior
+  changed and why).
