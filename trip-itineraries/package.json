@@ -1,0 +1,13 @@
+{
+  "name": "elsewhere",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "npm --prefix server start",
+    "dev": "npm --prefix server run dev",
+    "setup": "npm --prefix server install"
+  }
+}
