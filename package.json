@@ -1,13 +1,13 @@
 {
-  "name": "elsewhere",
+  "name": "elsewhere-monorepo",
   "version": "1.0.0",
   "private": true,
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "start": "npm --prefix server start",
-    "dev": "npm --prefix server run dev",
-    "setup": "npm --prefix server install"
+    "setup": "npm --prefix trip-itineraries run setup",
+    "start": "npm --prefix trip-itineraries start",
+    "dev": "npm --prefix trip-itineraries run dev"
   }
 }

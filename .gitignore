@@ -1,5 +1,7 @@
 node_modules/
 data/
-server/.env
+trip-itineraries/server/.env
+trip-itineraries/server/node_modules/
+trip-itineraries/data/
 .DS_Store
 *.log
