@@ -13,6 +13,8 @@ Prep materials + a live-demo codebase for the **Cursor Pitch and Demo Challenge*
 | [docs/DISCOVERY_FLASHCARDS.md](docs/DISCOVERY_FLASHCARDS.md) | Quiz yourself |
 | [docs/OBJECTION_DRILLS.md](docs/OBJECTION_DRILLS.md) | 20-second objection reps |
 | [demo/northstar-orders](demo/northstar-orders) | Brownfield service for live Agent demos |
+| [`.cursor/agents/devils-advocate.md`](.cursor/agents/devils-advocate.md) | Subagent: stress-test plans/code before you commit |
+| [`.cursor/skills/devils-advocate/`](.cursor/skills/devils-advocate/) | Same workflow as `/devils-advocate` skill + references |
 
 ## Practice loop (30–45 min)
 
